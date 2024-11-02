@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultat de la Simulation</title>
+</head>
+<body>
+<h1>Résultat de la Simulation</h1>
+<pre th:text="${resultat}"></pre>
+
+<!-- Bouton pour télécharger le fichier sortie.txt -->
+<form action="/telecharger" method="get">
+    <button type="submit">Télécharger le fichier des résultats</button>
+</form>
+
+<br>
+<a href="/">Revenir à l'accueil</a>
+</body>
+</html>

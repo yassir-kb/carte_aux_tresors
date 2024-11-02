@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>La Carte aux Trésors</title>
+</head>
+<body>
+<h1>La Carte aux Trésors</h1>
+<form action="/simuler" method="post" enctype="multipart/form-data">
+    <label for="fichier">Choisissez le fichier d'entrée :</label><br>
+    <input type="file" id="fichier" name="fichier" accept=".txt" required><br><br>
+    <input type="submit" value="Lancer la simulation">
+</form>
+
+<div th:if="${erreur}">
+    <p style="color:red;" th:text="${erreur}"></p>
+</div>
+</body>
+</html>
