@@ -11,8 +11,6 @@ Bienvenue dans le projet **Carte aux Trésors**, une application Java développ�
 - [Installation et Exécution](#installation-et-exécution)
 - [Utilisation](#utilisation)
 - [Tests](#tests)
-- [Contribuer](#contribuer)
-- [Licence](#licence)
 
 ## Introduction
 
