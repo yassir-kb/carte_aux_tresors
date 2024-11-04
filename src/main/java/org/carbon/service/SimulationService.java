@@ -30,27 +30,38 @@ public class SimulationService {
      * @throws IOException En cas d'erreur lors de la lecture ou de l'écriture.
      */
     public String executerSimulation(MultipartFile fichier, String cheminFichierSortie) throws IOException {
+        if (fichier == null || fichier.isEmpty()) {
+            throw new IllegalArgumentException("Le fichier d'entrée est vide ou invalide.");
+        }
+        if (cheminFichierSortie == null || cheminFichierSortie.isEmpty()) {
+            throw new IllegalArgumentException("Le chemin du fichier de sortie ne peut pas être null ou vide.");
+        }
+
         // Sauvegarder le fichier uploadé temporairement
         File fichierTemp = File.createTempFile("entree", ".txt");
         fichier.transferTo(fichierTemp);
 
-        // Lire les données du fichier
-        DonneesJeu donneesJeu = LecteurFichier.lireFichier(fichierTemp.getAbsolutePath());
+        try {
+            // Lire les données du fichier
+            DonneesJeu donneesJeu = LecteurFichier.lireFichier(fichierTemp.getAbsolutePath());
 
-        // Exécuter la simulation
-        executerSimulation(donneesJeu);
+            // Exécuter la simulation
+            executerSimulation(donneesJeu);
 
-        // Écrire le résultat dans une chaîne
-        StringWriter writer = new StringWriter();
-        EcrivainFichier.ecrireDansWriter(writer, donneesJeu);
+            // Écrire le résultat dans une chaîne
+            StringWriter writer = new StringWriter();
+            EcrivainFichier.ecrireDansWriter(writer, donneesJeu);
 
-        // Écrire le résultat dans un fichier pour le téléchargement
-        EcrivainFichier.ecrireFichier(cheminFichierSortie, donneesJeu);
+            // Écrire le résultat dans un fichier pour le téléchargement
+            EcrivainFichier.ecrireFichier(cheminFichierSortie, donneesJeu);
 
-        // Supprimer le fichier temporaire
-        fichierTemp.delete();
-
-        return writer.toString();
+            return writer.toString();
+        } finally {
+            // Supprimer le fichier temporaire
+            if (!fichierTemp.delete()) {
+                // Log ou gérer si le fichier n'a pas pu être supprimé
+            }
+        }
     }
 
     /**
@@ -59,6 +70,12 @@ public class SimulationService {
      * @param donneesJeu Données du jeu.
      */
     public void executerSimulation(DonneesJeu donneesJeu) {
+        if (donneesJeu == null) {
+            throw new IllegalArgumentException("Les données du jeu ne peuvent pas être null.");
+        }
+        if (donneesJeu.getCarte() == null) {
+            throw new IllegalArgumentException("La carte ne peut pas être null.");
+        }
         boolean mouvementsRestants = true;
 
         while (mouvementsRestants) {
@@ -81,6 +98,10 @@ public class SimulationService {
      * @param donneesJeu Données du jeu.
      */
     private void traiterMouvement(Aventurier aventurier, Mouvement mouvement, DonneesJeu donneesJeu) {
+        if (aventurier == null || mouvement == null || donneesJeu == null) {
+            throw new IllegalArgumentException("Les arguments ne peuvent pas être null.");
+        }
+
         switch (mouvement) {
             case AVANCER:
                 Position prochainePosition = calculerProchainePosition(aventurier);
@@ -116,6 +137,9 @@ public class SimulationService {
      * @return Position suivante.
      */
     private Position calculerProchainePosition(Aventurier aventurier) {
+        if (aventurier == null || aventurier.getPosition() == null || aventurier.getOrientation() == null) {
+            throw new IllegalArgumentException("L'aventurier et ses attributs ne peuvent pas être null.");
+        }
         int x = aventurier.getPosition().getX();
         int y = aventurier.getPosition().getY();
 
@@ -144,6 +168,9 @@ public class SimulationService {
      * @return true si la position est valide, false sinon.
      */
     private boolean positionValide(Position position, DonneesJeu donneesJeu) {
+        if (position == null || donneesJeu == null || donneesJeu.getCarte() == null) {
+            return false;
+        }
         return position.getX() >= 0 &&
                 position.getX() < donneesJeu.getCarte().getLargeur() &&
                 position.getY() >= 0 &&
@@ -158,6 +185,9 @@ public class SimulationService {
      * @return true si la case est accessible, false sinon.
      */
     private boolean caseAccessible(Position position, DonneesJeu donneesJeu) {
+        if (position == null || donneesJeu == null || donneesJeu.getCarte() == null) {
+            return false;
+        }
         Cellule cellule = donneesJeu.getCarte().getCellule(position);
         return !cellule.isMontagne();
     }

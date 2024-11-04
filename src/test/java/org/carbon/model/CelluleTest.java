@@ -1,5 +1,6 @@
 package org.carbon.model;
 
+import org.carbon.model.enums.Orientation;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +30,7 @@ public class CelluleTest {
         cellule.setNbTresors(3);
         assertEquals(3, cellule.getNbTresors());
 
-        Aventurier aventurier = new Aventurier("Test", position, null, "");
+        Aventurier aventurier = new Aventurier("Test", new Position(0, 0), Orientation.NORD, "A");
         cellule.setAventurier(aventurier);
         assertEquals(aventurier, cellule.getAventurier());
     }

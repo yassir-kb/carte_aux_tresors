@@ -35,12 +35,13 @@ public class CarteTest {
      */
     @Test
     public void testGetCellulePositionInvalide() {
-        Carte carte = new Carte(3, 4);
+        Carte carte = new Carte(2, 2);
+        Position positionInvalide = new Position(-1, 0);
 
-        Exception exception = assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            carte.getCellule(new Position(-1, 0));
+        // On peut modifier ici le type d'exception attendu
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            carte.getCellule(positionInvalide);
         });
-
-        // Pas besoin de message spécifique pour ce test
     }
+
 }

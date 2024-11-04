@@ -1,5 +1,8 @@
 package org.carbon.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,24 +10,13 @@ import java.util.List;
  * Classe contenant les données du jeu lues depuis le fichier.
  * Auteur: Yassir EL KOBI
  */
+@Getter
 public class DonneesJeu {
+    @Setter
     private Carte carte;
-    private List<Aventurier> aventuriers;
+    private final List<Aventurier> aventuriers;
 
     public DonneesJeu() {
         this.aventuriers = new ArrayList<>();
-    }
-
-    // Getters et setters
-    public Carte getCarte() {
-        return carte;
-    }
-
-    public void setCarte(Carte carte) {
-        this.carte = carte;
-    }
-
-    public List<Aventurier> getAventuriers() {
-        return aventuriers;
     }
 }

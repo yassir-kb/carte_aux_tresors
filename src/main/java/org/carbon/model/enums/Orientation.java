@@ -1,5 +1,7 @@
 package org.carbon.model.enums;
 
+import lombok.Getter;
+
 /**
  * Enumération des orientations possibles.
  * Auteur: Yassir EL KOBI
@@ -10,14 +12,11 @@ public enum Orientation {
     EST('E'),
     OUEST('O');
 
-    private char code;
+    @Getter
+    private final char code;
 
     Orientation(char code) {
         this.code = code;
-    }
-
-    public char getCode() {
-        return code;
     }
 
     public static Orientation depuisCaractere(char c) {

@@ -15,6 +15,9 @@ import java.io.IOException;
 public class LecteurFichier {
 
     public static DonneesJeu lireFichier(String cheminFichier) throws IOException {
+        if (cheminFichier == null || cheminFichier.isEmpty()) {
+            throw new IllegalArgumentException("Le chemin du fichier ne peut pas être null ou vide.");
+        }
         DonneesJeu donneesJeu = new DonneesJeu();
         Carte carte = null;
 
@@ -42,6 +45,9 @@ public class LecteurFichier {
                         donneesJeu.setCarte(carte);
                         break;
                     case "M":
+                        if (carte == null) {
+                            throw new IllegalStateException("La carte doit être définie avant de définir des montagnes.");
+                        }
                         if (parties.length != 3) {
                             throw new IllegalArgumentException("Ligne 'M' mal formatée : " + ligne);
                         }
@@ -51,6 +57,9 @@ public class LecteurFichier {
                         celluleM.setMontagne(true);
                         break;
                     case "T":
+                        if (carte == null) {
+                            throw new IllegalStateException("La carte doit être définie avant de définir des trésors.");
+                        }
                         if (parties.length != 4) {
                             throw new IllegalArgumentException("Ligne 'T' mal formatée : " + ligne);
                         }
@@ -61,6 +70,9 @@ public class LecteurFichier {
                         celluleT.setNbTresors(nbTresors);
                         break;
                     case "A":
+                        if (carte == null) {
+                            throw new IllegalStateException("La carte doit être définie avant de définir des aventuriers.");
+                        }
                         if (parties.length != 6) {
                             throw new IllegalArgumentException("Ligne 'A' mal formatée : " + ligne);
                         }
@@ -74,6 +86,9 @@ public class LecteurFichier {
                         donneesJeu.getAventuriers().add(aventurier);
                         // Placer l'aventurier sur la carte
                         Cellule celluleA = carte.getCellule(aventurier.getPosition());
+                        if (celluleA.isMontagne() || celluleA.getAventurier() != null) {
+                            throw new IllegalArgumentException("La position de l'aventurier est invalide ou déjà occupée : " + aventurier.getPosition());
+                        }
                         celluleA.setAventurier(aventurier);
                         break;
                     default:
@@ -81,8 +96,9 @@ public class LecteurFichier {
                 }
             }
         }
+        if (donneesJeu.getCarte() == null) {
+            throw new IllegalStateException("La carte n'a pas été définie dans le fichier.");
+        }
         return donneesJeu;
     }
-
 }
-

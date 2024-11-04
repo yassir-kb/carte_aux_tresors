@@ -1,48 +1,27 @@
 package org.carbon.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Classe représentant une cellule de la carte.
  * Auteur: Yassir EL KOBI
  */
+@Getter
+@Setter
 public class Cellule {
-    private Position position;
+    private final Position position;
     private boolean montagne;
     private int nbTresors;
     private Aventurier aventurier;
 
     public Cellule(Position position) {
+        if (position == null) {
+            throw new IllegalArgumentException("La position ne peut pas être null.");
+        }
         this.position = position;
         this.montagne = false;
         this.nbTresors = 0;
         this.aventurier = null;
-    }
-
-    // Getters et setters
-    public Position getPosition() {
-        return position;
-    }
-
-    public boolean isMontagne() {
-        return montagne;
-    }
-
-    public void setMontagne(boolean montagne) {
-        this.montagne = montagne;
-    }
-
-    public int getNbTresors() {
-        return nbTresors;
-    }
-
-    public void setNbTresors(int nbTresors) {
-        this.nbTresors = nbTresors;
-    }
-
-    public Aventurier getAventurier() {
-        return aventurier;
-    }
-
-    public void setAventurier(Aventurier aventurier) {
-        this.aventurier = aventurier;
     }
 }

@@ -1,15 +1,21 @@
 package org.carbon.model;
 
+import lombok.Getter;
+
 /**
  * Classe représentant la carte du jeu.
  * Auteur: Yassir EL KOBI
  */
+@Getter
 public class Carte {
-    private int largeur;
-    private int hauteur;
-    private Cellule[][] grille;
+    private final int largeur;
+    private final int hauteur;
+    private final Cellule[][] grille;
 
     public Carte(int largeur, int hauteur) {
+        if (largeur <= 0 || hauteur <= 0) {
+            throw new IllegalArgumentException("La largeur et la hauteur doivent être supérieures à zéro.");
+        }
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.grille = new Cellule[hauteur][largeur];
@@ -22,20 +28,15 @@ public class Carte {
         }
     }
 
-    // Getters et méthodes associées
-    public int getLargeur() {
-        return largeur;
-    }
-
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    public Cellule[][] getGrille() {
-        return grille;
-    }
-
     public Cellule getCellule(Position position) {
-        return grille[position.getY()][position.getX()];
+        if (position == null) {
+            throw new IllegalArgumentException("La position ne peut pas être null.");
+        }
+        int x = position.getX();
+        int y = position.getY();
+        if (x < 0 || x >= largeur || y < 0 || y >= hauteur) {
+            throw new IndexOutOfBoundsException("Position hors des limites de la carte.");
+        }
+        return grille[y][x];
     }
 }

@@ -1,5 +1,7 @@
 package org.carbon.model.enums;
 
+import lombok.Getter;
+
 /**
  * Enumération des mouvements possibles.
  * Auteur: Yassir EL KOBI
@@ -9,14 +11,11 @@ public enum Mouvement {
     GAUCHE('G'),
     DROITE('D');
 
-    private char code;
+    @Getter
+    private final char code;
 
     Mouvement(char code) {
         this.code = code;
-    }
-
-    public char getCode() {
-        return code;
     }
 
     public static Mouvement depuisCaractere(char c) {
